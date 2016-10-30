@@ -98,10 +98,23 @@ class Responsable
 
          while ($data = $res->fetch_array()) {
              $users[] = $data['u_login'];
-         }
-         return $users;
+        }
+        return $users;
     }
-    
+    public static function getLoginGrandResponsableUtilisateur($user) {
+        $groupesUser = [];
+        $groupesIdUser = \App\ProtoControllers\Utilisateur::getGroupesId($user);
+        
+        $grandResp = [];
+        $sql = \includes\SQL::singleton();
+        $req = 'select ggr_login FROM conges_groupe_grd_resp where ggr_gid  IN (\'' . implode(',', $groupesIdUser) . '\')';
+        $res = $sql->query($req);
+        
+        while ($data = $res->fetch_array()) {
+             $grandResp[] = $data['ggr_login'];
+        }
+        return $grandResp;
+    }
     public static function getResponsablesUtilisateur($user) {
         
         $responsables = \App\ProtoControllers\Responsable::getResponsableGroupe(\App\ProtoControllers\Utilisateur::getGroupesId($user));
