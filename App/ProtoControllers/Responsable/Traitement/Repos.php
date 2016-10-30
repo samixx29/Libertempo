@@ -68,7 +68,7 @@ class Repos extends \App\ProtoControllers\Responsable\ATraitement
         }
         
         if( 0 < $return) {
-            $notif = new \App\Libraries\Notification\Repos($id);
+            $notif = new \App\Libraries\Notification\Repos($id_heure);
             $send = $notif->send();
 
             if (false === $send) {
@@ -349,9 +349,8 @@ class Repos extends \App\ProtoControllers\Responsable\ATraitement
                 ORDER BY debut DESC, statut ASC';
 
         $ListeDemande = $sql->query($req)->fetch_all(MYSQLI_ASSOC);
-        
         foreach ($ListeDemande as $demande){
-            $infoDemande[$demande['p_num']] = $demande;
+            $infoDemande[$demande['id_heure']] = $demande;
         }
 
         return $infoDemande;
