@@ -133,7 +133,7 @@ class Responsable
         
     }
     
-    private function getResponsableGroupe(array $groupesId) {
+    private static function getResponsableGroupe(array $groupesId) {
         
         $responsable = [];
         
