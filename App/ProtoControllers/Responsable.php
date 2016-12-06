@@ -101,8 +101,8 @@ class Responsable
         }
         return $users;
     }
+    
     public static function getLoginGrandResponsableUtilisateur($user) {
-        $groupesUser = [];
         $groupesIdUser = \App\ProtoControllers\Utilisateur::getGroupesId($user);
         
         $grandResp = [];
@@ -115,11 +115,13 @@ class Responsable
         }
         return $grandResp;
     }
+    
     public static function getResponsablesUtilisateur($user) {
         
         $responsables = \App\ProtoControllers\Responsable::getResponsableGroupe(\App\ProtoControllers\Utilisateur::getGroupesId($user));
-        array_push($responsables,\App\ProtoControllers\Responsable::getResponsableDirect($user));
-
+        $responsables[] = \App\ProtoControllers\Responsable::getResponsableDirect($user);
+        $responsables = array_unique($responsables);
+        
         return $responsables;
     }
 
@@ -127,7 +129,7 @@ class Responsable
         
         $resp = [];
         $sql = \includes\SQL::singleton();
-        $req = 'SELECT u_resp_login FROM conges_users WHERE u_login ="' . $user . '"';
+        $req = 'SELECT u_resp_login FROM conges_users WHERE u_login ="' . SQL::quote($user) . '"';
         $res = $sql->query($req);
         return $res->fetch_array()['u_resp_login'];
         
