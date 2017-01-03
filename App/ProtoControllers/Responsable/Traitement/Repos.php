@@ -33,7 +33,7 @@ class Repos extends \App\ProtoControllers\Responsable\ATraitement
             } elseif (\App\ProtoControllers\Responsable::isGrandRespDeGroupe($resp, \App\ProtoControllers\Utilisateur::getGroupesId($infoDemandes[$id_heure]['login']))) {
                 $return = $this->putGrandResponsable($infoDemandes[$id_heure], $statut, $put, $errorLst);
             } else {
-                $errorLst[] = _('erreur_pas_responsable_de') . ' ' . $infoDemandes['id_heure']['login'];
+                $errorLst[] = _('erreur_pas_responsable_de') . ' ' . $infoDemandes[$id_heure]['login'];
                 $return = NIL_INT;
             }
         }
@@ -187,8 +187,8 @@ class Repos extends \App\ProtoControllers\Responsable\ATraitement
         $sql = \includes\SQL::singleton();
 
         $req   = 'UPDATE conges_users
-                SET u_heure_solde = u_heure_solde-' .$user[0]['duree'] . '
-                WHERE u_login = \''. $user[0]['login'] .'\'';
+                SET u_heure_solde = u_heure_solde-' .$user[$demandeId]['duree'] . '
+                WHERE u_login = \''. $user[$demandeId]['login'] .'\'';
         $query = $sql->query($req);
 
         return $sql->affected_rows;
