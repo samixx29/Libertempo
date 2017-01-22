@@ -362,8 +362,8 @@ enctype="application/x-www-form-urlencoded">' . $modification . '&nbsp;&nbsp;' .
      */
     protected function getListeId(array $params)
     {
+        $where = [];
         if (!empty($params)) {
-            $where = [];
             foreach ($params as $key => $value) {
                 switch ($key) {
                     case 'timestampDebut':

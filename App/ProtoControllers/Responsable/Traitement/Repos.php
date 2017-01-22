@@ -40,7 +40,7 @@ class Repos extends \App\ProtoControllers\Responsable\ATraitement
         $notice = _('traitement_effectue');
         return $return;
     }
-    
+
     /**
      * {@inheritDoc}
      */
@@ -117,10 +117,10 @@ class Repos extends \App\ProtoControllers\Responsable\ATraitement
 
     /**
      * Mise a jour du statut de la demande d'heure de repos
-     * 
+     *
      * @param int $demandeId
-     * 
-     * @return int 
+     *
+     * @return int
      */
     protected function updateStatutValidationFinale($demandeId)
     {
@@ -133,13 +133,13 @@ class Repos extends \App\ProtoControllers\Responsable\ATraitement
 
         return $sql->affected_rows;
     }
-    
+
     /**
      * Refus de la demande d'heure de repos
-     * 
+     *
      * @param int $demandeId
      * @param int $comm
-     * 
+     *
      * @return int
      */
     protected function updateStatutRefus($demandeId, $comment)
@@ -154,13 +154,13 @@ class Repos extends \App\ProtoControllers\Responsable\ATraitement
 
         return $sql->affected_rows;
     }
-    
+
     /**
      * Première validation de la demande d'heure de repos
-     * 
+     *
      * @param int $demandeId
-     * 
-     * @return int 
+     *
+     * @return int
      */
     protected function updateStatutPremiereValidation($demandeId)
     {
@@ -176,9 +176,9 @@ class Repos extends \App\ProtoControllers\Responsable\ATraitement
 
     /**
      * Soustraction de la demande de repos au solde du demandeur
-     * 
+     *
      * @param int $demandeId
-     * 
+     *
      * @return int
      */
     protected function updateSolde($demandeId)
@@ -240,14 +240,14 @@ class Repos extends \App\ProtoControllers\Responsable\ATraitement
         $childTable .= '<th>' . _('duree') . '</th>';
         $childTable .= '<th>' . _('divers_solde') . '</th>';
         $childTable .= '<th>' . _('divers_comment_maj_1') . '</th>';
-        $childTable .= '<th>' . _('divers_accepter_maj_1') . '</th><th>' . _('divers_refuser_maj_1') . '</th><th>' . _('resp_traite_demandes_attente') . '</th>';
+        $childTable .= '<th>' . _('divers_accepter_maj_1') . '</th><th>' . _('divers_refuser_maj_1') . '</th><th>' . _('resp_traite_demandes_attente') . '</th><th></th>';
         $childTable .= '<th>' . _('resp_traite_demandes_motif_refus') . '</th>';
         $childTable .= '</tr></thead><tbody>';
-        
+
         $demandesResp = $this->getDemandesResponsable($_SESSION['userlogin']);
         $demandesGrandResp = $this->getDemandesGrandResponsable($_SESSION['userlogin']);
         if (empty($demandesResp) && empty($demandesGrandResp) ) {
-            $childTable .= '<tr><td colspan="11"><center>' . _('aucun_resultat') . '</center></td></tr>';
+            $childTable .= '<tr><td colspan="12"><center>' . _('aucun_resultat') . '</center></td></tr>';
         } else {
             if(!empty($demandesResp)) {
                 $childTable .= $this->getFormDemandes($demandesResp);
@@ -271,7 +271,7 @@ class Repos extends \App\ProtoControllers\Responsable\ATraitement
 
         return $return;
     }
-    
+
      /**
       * {@inheritDoc}
       */
@@ -281,15 +281,15 @@ class Repos extends \App\ProtoControllers\Responsable\ATraitement
 
 
         $usersResp = [];
-        $usersResp = \App\ProtoControllers\Responsable::getUsersGroupe($groupId);
+        $usersResp = \App\ProtoControllers\Groupe\Utilisateur::getListUtilisateurByGroupeIds($groupId);
 
         $usersRespDirect = \App\ProtoControllers\Responsable::getUsersRespDirect($resp);
         $usersResp = array_merge($usersResp,$usersRespDirect);
-        
+
         if (empty($usersResp)) {
             return [];
         }
-        
+
         $ids = [];
         $sql = \includes\SQL::singleton();
         $req = 'SELECT id_heure AS id
@@ -312,12 +312,12 @@ class Repos extends \App\ProtoControllers\Responsable\ATraitement
         if (empty($groupId)) {
             return [];
         }
-        
-        $usersResp = \App\ProtoControllers\Responsable::getUsersGroupe($groupId);
+
+        $usersResp = \App\ProtoControllers\Groupe\Utilisateur::getListUtilisateurByGroupeIds($groupId);
         if (empty($usersResp)) {
             return [];
         }
-        
+
         $ids = [];
         $sql = \includes\SQL::singleton();
         $req = 'SELECT id_heure AS id
@@ -337,7 +337,7 @@ class Repos extends \App\ProtoControllers\Responsable\ATraitement
     protected function getInfoDemandes(array $listId)
     {
         $infoDemande =[];
-        
+
         if (empty($listId)) {
             return [];
         }
