@@ -128,29 +128,7 @@ class Responsable
         
         return 0 < (int) $query->fetch_array()[0];
     }
-     
-    /**
-     * Retourne le login des utilisateurs d'un responsable direct
-     *
-     * @param string $resp
-     * 
-     * @return array $users
-     */
-    public static function getUsersRespDirect($resp)
-    {
-        
-        $users = [];
-        
-        $sql = \includes\SQL::singleton();
-        $req = 'SELECT u_login FROM `conges_users` WHERE u_resp_login ="'. $resp . '"';
-        $res = $sql->query($req);
 
-        while ($data = $res->fetch_array()) {
-            $users[] = $data['u_login'];
-        }
-        return $users;
-    }
-    
     public static function getLoginGrandResponsableUtilisateur($user) {
         $groupesIdUser = \App\ProtoControllers\Utilisateur::getGroupesId($user);
         
